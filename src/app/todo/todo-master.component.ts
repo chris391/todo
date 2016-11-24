@@ -44,10 +44,10 @@ import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 
 export class TodoMasterComponent implements OnInit {
   simpleForm: FormGroup;
-  private task: any[]=[];
+  private todo: any[]=[];
 
   ngOnInit():void {
-    // this.getPending();
+    this.getPending();
 
 
     // this.deleteTodo();
@@ -58,10 +58,10 @@ export class TodoMasterComponent implements OnInit {
   // }
 
   public onSubmit(form){
-    // console.log("onSubmit(): " + form.controls.taskForm.value);
+    console.log("onSubmit(): " + form.controls.taskForm.value);
 
     this._todoService.addTodo(form.controls.taskForm.value, false).subscribe(
-      task => {this.task = task;}
+      task => {this.todo = task;}
 
     );
   }
@@ -85,18 +85,18 @@ export class TodoMasterComponent implements OnInit {
   //   text: ""
   // };
 
-  // public add(): void {
-  //   this._todoService.add(this.todo);
-  //   this.getPending();
-  //   this.todo.text = "";
-  // }
-  //
-  // public getPending(): void {
-  //   this.todos = this._todoService.getPending();
-  // }
-  //
-  // public archive(todo: Todo) {
-  //   this._todoService.archive(todo);
-  //   this.getPending();
-  // }
+  public add(): void {
+    // this._todoService.add(this.todo);
+    // this.getPending();
+    // this.todo.text = "";
+  }
+
+  public getPending(): void {
+    this.todos = this._todoService.getPending();
+  }
+
+  public archive(todo: Todo) {
+    this._todoService.archive(todo);
+    this.getPending();
+  }
 }

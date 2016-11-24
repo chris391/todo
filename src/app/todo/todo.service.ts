@@ -20,15 +20,15 @@ export class TodoService {
       .catch(this.handleError);
   }
 
-  public addTodo (task: string, done: boolean): Observable<Todo[]> {
+  public addTodo (task: string, completed: boolean): Observable<Todo[]> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    console.log(task, done);
+    console.log(task, completed);
 
     var todo = {
       task: task,
-      boolean: done
+      boolean: completed
     };
 
     return this.http.post("http://angular2api2.azurewebsites.net/api/internships", {todo} , options)
