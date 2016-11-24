@@ -31,7 +31,7 @@ export class TodoService {
       boolean: completed
     };
 
-    return this.http.post("http://angular2api2.azurewebsites.net/api/internships", {todo} , options)
+    return this.http.post("http://localhost:3000/api/todos", {todo} , options)
       .map(this.extractData)
       // .map(res =>res.json())
       // res=> res.json()

@@ -44,7 +44,7 @@ import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 
 export class TodoMasterComponent implements OnInit {
   simpleForm: FormGroup;
-  private todo: any[]=[];
+  private todo: Todo[]=[];
 
   ngOnInit():void {
     this.getPending();

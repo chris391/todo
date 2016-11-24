@@ -8,6 +8,17 @@ app.use(BodyParser.urlencoded({
 }));
 
 app.use(BodyParser.json());
+/*app.use(function(req, res, next){
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200/todo');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type: application/json');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+
+});*/
+
+var cors = require('cors');
+app.use(cors({origin: 'http://localhost:4200/todo'}));
 
 var users = require('./server/routers/users.js');
 //var products = require('./routers/products.js');

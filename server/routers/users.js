@@ -4,7 +4,7 @@ var app = express();
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 
-var url = 'mongodb://localhost:27017/store';
+var url = 'mongodb://localhost:27017/api';
 
 
 
@@ -12,28 +12,28 @@ var url = 'mongodb://localhost:27017/store';
 // create routes for products
 // Get, Post
 
-app.get('/store', function(req, res) {
+app.get('/api', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
-        var collection = db.collection('users');
+        var collection = db.collection('todos');
 
         collection.find({}).toArray(function(err, data) {
-            
+
             res.send(data);
             //res.json(data);
             db.close();
         });
     });
 });
-app.get('/store/:id', function(req, res) {
+app.get('/api/:id', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
-        var collection = db.collection('users');
+        var collection = db.collection('todos');
 
         collection.findOne({'_id' : ObjectId(req.params.id)},function(err, data) {
-            
+
             res.send(data);
             //res.json(data);
             db.close();
@@ -42,15 +42,15 @@ app.get('/store/:id', function(req, res) {
 });
 
 //post route
-app.post('/store', function(req, res) {
+app.post('/api', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
-        var collection = db.collection('users');
+        var collection = db.collection('todos');
 
         collection.insert(req.body, function(err, data) {
-            
-            res.send({"msg" : "user created"});
+
+            res.send({"msg" : "todo created"});
             //res.json(data);
             db.close();
         });
@@ -58,15 +58,15 @@ app.post('/store', function(req, res) {
 });
 
 //update route
-app.put('/store/:id', function(req, res) {
+app.put('/api/:id', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
-        var collection = db.collection('users');
+        var collection = db.collection('todos');
 
         collection.update({'_id' : ObjectId(req.params.id)},{$set:req.body}, function(err, data) {
-            
-            res.send({"msg" : "user updated"});
+
+            res.send({"msg" : "todo updated"});
             //res.json(data);
             db.close();
         });
@@ -74,15 +74,15 @@ app.put('/store/:id', function(req, res) {
 });
 
 //delete route
-app.delete('/store/:id', function(req, res) {
+app.delete('/api/:id', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
-        var collection = db.collection('users');
+        var collection = db.collection('todos');
 
         collection.remove({'_id' : ObjectId(req.params.id)}, function(err, data) {
-            
-            res.send({"msg" : "user deleted"});
+
+            res.send({"msg" : "todo deleted"});
             //res.json(data);
             db.close();
         });
