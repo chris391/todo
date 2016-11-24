@@ -58,7 +58,7 @@ export class TodoMasterComponent implements OnInit {
   // }
 
   public onSubmit(form){
-    console.log("onSubmit(): " + form.controls.taskForm.value);
+    //console.log("onSubmit(): " + form.controls.taskForm.value);
 
     this._todoService.addTodo(form.controls.taskForm.value, false).subscribe(
       task => {this.todo = task;}
