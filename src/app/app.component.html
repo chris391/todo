@@ -1,10 +1,11 @@
 <div class="container">
-  <h1>
-    {{title}}
-  </h1>
-
-  <button routerLink="/about">About</button>
-  <button routerLink="/internships">Internships</button>
-
+  <div class="row">
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a [routerLink]="['todo']">Started</a></li>
+        <li><a [routerLink]="['todos']">Finalized</a></li>
+      </ul>
+    </div>
+  </div>
   <router-outlet></router-outlet>
 </div>

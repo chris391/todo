@@ -4,22 +4,18 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import {InternshipEntryComponent} from "./internshipEntry.component";
-import {routing} from "./app-routing.module";
-import {AboutComponent} from "./about.component";
-import {InternshipsComponent} from "./internships.component";
-import {InternshipsService} from "./internships.service";
-import {AComponent} from "./a.component";
-import {BComponent} from "./b.component";
+import {routing} from "./todo/app-routing.module";
+import {TodoService} from "./todo/todo.service";
+import {TodoDetailComponent} from "./todo/todo-detail.component";
+import {TodoMasterComponent} from "./todo/todo-master.component";
+import {TodoFilter} from "./todo/todos-filter.pipe";
 
 @NgModule({
   declarations: [
     AppComponent,
-    InternshipEntryComponent, //I added this.
-    AboutComponent,
-    InternshipsComponent,
-    AComponent,
-    BComponent
+    TodoDetailComponent,
+    TodoMasterComponent,
+    TodoFilter
   ],
   imports: [
     BrowserModule,
@@ -28,7 +24,7 @@ import {BComponent} from "./b.component";
     ReactiveFormsModule, //I added this.
     routing
   ],
-  providers: [InternshipsService],
+  providers: [TodoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
