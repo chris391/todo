@@ -12,7 +12,7 @@ var url = 'mongodb://localhost:27017/api';
 // create routes for products
 // Get, Post
 
-app.get('/api', function(req, res) {
+app.get('/api/todos', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
@@ -26,7 +26,7 @@ app.get('/api', function(req, res) {
         });
     });
 });
-app.get('/api/:id', function(req, res) {
+app.get('/api/todos/:id', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
@@ -42,7 +42,7 @@ app.get('/api/:id', function(req, res) {
 });
 
 //post route
-app.post('/api', function(req, res) {
+app.post('/api/todos', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
@@ -58,7 +58,7 @@ app.post('/api', function(req, res) {
 });
 
 //update route
-app.put('/api/:id', function(req, res) {
+app.put('/api/todos/:id', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
@@ -74,7 +74,7 @@ app.put('/api/:id', function(req, res) {
 });
 
 //delete route
-app.delete('/api/:id', function(req, res) {
+app.delete('/api/todos/:id', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
