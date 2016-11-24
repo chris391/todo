@@ -24,7 +24,7 @@ export class TodoService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    console.log(task, completed);
+    //console.log(task, completed);
 
     var todo = {
       task: task,
