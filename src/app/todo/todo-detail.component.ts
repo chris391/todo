@@ -10,9 +10,11 @@ import{Todo} from "./todo.model.ts";
     <div class="todolist">
         <h1>Already Done</h1>
         <ul id="done-items" class="list-unstyled">
-            <li *ngFor="let todo of newArray" [class.done]="todo.completed">
+            <li *ngFor="let todo of todos" [class.done]="todo.completed">
+              {{todo.task}}
+            
+            <!--[class.done]="todo.completed"-->
               <!--&lt;!&ndash;<div *ngIf={{todo.completed}}>{{todo.title}}</div>&ndash;&gt;-->
-              {{todo.title}}
               <!--&lt;!&ndash;{{todo.completed}}&ndash;&gt;-->
               
               
@@ -35,27 +37,28 @@ export class TodoDetailComponent implements OnInit {
 
   private index:number=0;
 
-  private sortIt():any{
-    while (this.index<=this.todos.length-1){
-
-      if(this.todos[this.index].completed==true){
-        // return this.todos[this.index];
-        this.newArray.push(this.todos[this.index]);
-        console.log("works");
-
-      }
-      this.index++;
-
-    }
-  }
+  // private sortIt():any{
+  //   while (this.index<=this.todos.length-1){
+  //     console.log("hei");
+  //     if(this.todos[this.index].completed==false){
+  //       console.log("heeeei");
+  //       // return this.todos[this.index];
+  //       this.newArray.push(this.todos[this.index]);
+  //       console.log("works");
+  //
+  //     }
+  //     this.index++;
+  //
+  //   }
+  // }
 
   private errorMessage: string = "";
 
   ngOnInit() {
     this.todoService.getAllTodos().subscribe(
-      todos => this.todos = todos,
-      error => this.errorMessage = error,
-      () => this.sortIt()
+      todo => this.todos = todo,
+      error => this.errorMessage = error
+      // () => this.sortIt()
 
     );
 

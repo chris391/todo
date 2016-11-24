@@ -15,7 +15,7 @@ export class TodoService {
   public getAllTodos(): Observable<Todo[]> {
     // return this.http.get("http://angularkea1.azurewebsites.net/api/internships/getall")
     // return this.http.get("http://angular2api2.azurewebsites.net/api/internships/")
-    return this.http.get("https://jsonplaceholder.typicode.com/todos")
+    return this.http.get("http://localhost:3000/api/todos")
       .map(this.extractData)//when it goes well
       .catch(this.handleError);
   }
@@ -28,7 +28,7 @@ export class TodoService {
 
     var todo = {
       task: task,
-      boolean: completed
+      completed: completed
     };
 
     return this.http.post("http://localhost:3000/api/todos", {todo} , options)
