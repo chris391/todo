@@ -17,8 +17,8 @@ app.use(BodyParser.json());
 
 });*/
 
-var cors = require('cors');
-app.use(cors({origin: 'http://localhost:4200/todo'}));
+//var cors = require('cors');
+//app.use(cors({origin: 'http://localhost:4200/todo'}));
 
 var users = require('./server/routers/users.js');
 //var products = require('./routers/products.js');
