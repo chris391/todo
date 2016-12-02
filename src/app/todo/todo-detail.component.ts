@@ -4,7 +4,7 @@ import{Todo} from "./todo.model.ts";
 // import { TodoFilter } from './todos-filter.pipe';
 
 @Component({
-  providers: [TodoService],
+  providers:[TodoService],
   template: `
 <div class="col-md-12">
     <div class="todolist">
@@ -29,35 +29,33 @@ import{Todo} from "./todo.model.ts";
 })
 
 export class TodoDetailComponent implements OnInit {
-  // public todos: Todo[] = [];
-
   private todos: Todo[] = [];
   private internships: any[] =[];
   private newArray: Todo[]=[];
 
   private index:number=0;
 
-  // private sortIt():any{
-  //   while (this.index<=this.todos.length-1){
-  //     console.log("hei");
-  //     if(this.todos[this.index].completed==false){
-  //       console.log("heeeei");
-  //       // return this.todos[this.index];
-  //       this.newArray.push(this.todos[this.index]);
-  //       console.log("works");
-  //
-  //     }
-  //     this.index++;
-  //
-  //   }
-  // }
+  private sortIt():any{
+    // while (this.index<=this.todos.length-1){
+    //   console.log("hei");
+    //   if(this.todos[this.index].completed==false){
+    //     console.log("heeeei");
+    //     // return this.todos[this.index];
+    //     this.newArray.push(this.todos[this.index]);
+    //     console.log("works");
+    //
+    //   }
+    //   this.index++;
+    //
+    // }
+  }
 
   private errorMessage: string = "";
 
   ngOnInit() {
     this.todoService.getAllTodos().subscribe(
       todo => this.todos = todo,
-      error => this.errorMessage = error
+      error => this.errorMessage = error,
       // () => this.sortIt()
 
     );

@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {Todo} from "./todo.model";
 import {TodoService} from "./todo.service";
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
+import {Observable} from "rxjs";
 
 @Component({
   providers: [TodoService],
@@ -26,7 +27,7 @@ import {FormGroup, Validators, FormBuilder} from "@angular/forms";
                 <li class="ui-state-default" *ngFor="let todo of todos">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" (click)="archive(todo)" /> {{todo.text}}
+                            <input type="checkbox" (click)="updateTodo(todo)" /> {{todo.task}}
                         </label>
                     </div>
                 </li>
@@ -44,40 +45,44 @@ import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 
 export class TodoMasterComponent implements OnInit {
   simpleForm: FormGroup;
-  private todo: Todo[]=[];
+  private addTodo: Todo[] = [];
+  private todos: Todo[] = [];
+  private errorMessage: string = "";
 
-  ngOnInit():void {
-    this.getPending();
+  ngOnInit(): void {
+    //this.getPending();
 
+    this.todoService.getAllTodos().subscribe(
+      todo => this.todos = todo,
+      error => this.errorMessage = error
+    );
 
-    // this.deleteTodo();
 
   }
+
   // private deleteTodo():any {
   //   this.todos = this.todoService.deleteTodo("1");
   // }
 
-  public onSubmit(form){
+  public onSubmit(form) {
     //console.log("onSubmit(): " + form.controls.taskForm.value);
 
     this._todoService.addTodo(form.controls.taskForm.value, false).subscribe(
-      task => {this.todo = task;}
-
+      task => this.addTodo = task
     );
   }
 
   constructor(private fb: FormBuilder, private _todoService: TodoService, private todoService: TodoService) {
     this.simpleForm = fb.group({
-    'taskForm':[null, Validators.compose([Validators.required, Validators.minLength(2)])]
+      'taskForm': [null, Validators.compose([Validators.required, Validators.minLength(2)])]
     })
   }
 
-  public submitForm(value:any){
+  public submitForm(value: any) {
     // console.log(value);
 
   }
 
-  public todos: Todo[] = [];
 
   // todo: Todo = {
   //   id: 0,
@@ -98,5 +103,31 @@ export class TodoMasterComponent implements OnInit {
   public archive(todo: Todo) {
     this._todoService.archive(todo);
     this.getPending();
+
   }
+
+
+  // public serverArchive(todo: Todo) {
+  //   todo.completed==true;
+// }
+  updateTodo(todo) {
+    //console.log("update todo1")
+    this.todoService.updateTodo(todo).subscribe(
+      //console.log("update todo")
+      data => {
+        console.log("update todo");
+        // refresh the list
+        todo.completed==true;
+        // this.getFoods();
+        return true;
+      },
+      error => {
+        console.error("Error saving food!");
+        return Observable.throw(error);
+      }
+    );
+  }
+
+
+
 }

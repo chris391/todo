@@ -9,14 +9,14 @@ var url = 'mongodb://localhost:27017/api';
 
 
 
-
-
 // create routes for products
 // Get, Post
 
 app.get('/api/todos', function(req, res) {
 
-    MongoClient.connect(url, function(err, db) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  MongoClient.connect(url, function(err, db) {
 
         var collection = db.collection('todos');
 
@@ -29,12 +29,16 @@ app.get('/api/todos', function(req, res) {
     });
 });
 app.get('/api/todos/:id', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    MongoClient.connect(url, function(err, db) {
+
+  MongoClient.connect(url, function(err, db) {
 
         var collection = db.collection('todos');
 
         collection.findOne({'_id' : ObjectId(req.params.id)},function(err, data) {
+          console.log(req.body);
 
             res.send(data);
             //res.json(data);
@@ -45,8 +49,11 @@ app.get('/api/todos/:id', function(req, res) {
 
 //post route
 app.post('/api/todos', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    MongoClient.connect(url, function(err, db) {
+
+  MongoClient.connect(url, function(err, db) {
 
         var collection = db.collection('todos');
 
@@ -61,34 +68,64 @@ app.post('/api/todos', function(req, res) {
 
 //update route
 app.put('/api/todos/:id', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    MongoClient.connect(url, function(err, db) {
+
+  MongoClient.connect(url, function(err, db) {
 
         var collection = db.collection('todos');
-
-        collection.update({'_id' : ObjectId(req.params.id)},{$set:req.body}, function(err, data) {
+    try{
+        collection.updateOne({'_id': ObjectId(req.params.id)}, {$set: req.body}, function(err, data) {
 
             res.send({"msg" : "todo updated"});
             //res.json(data);
             db.close();
         });
-    });
+        } catch (e) {
+      console.log(e);
+    }
+
+        });
+
 });
 
 //delete route
 app.delete('/api/todos/:id', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    MongoClient.connect(url, function(err, db) {
 
-        var collection = db.collection('todos');
+  MongoClient.connect(url, function(err, db) {
 
-        collection.remove({'_id' : ObjectId(req.params.id)}, function(err, data) {
+    var collection = db.collection('todos');
 
-            res.send({"msg" : "todo deleted"});
-            //res.json(data);
-            db.close();
-        });
+    collection.remove({'_id' : ObjectId(req.params.id)}, function(err, data) {
+
+      res.send({"msg" : "todo deleted"});
+      //res.json(data);
+      db.close();
     });
+  });
+});
+//delete all
+app.delete('/api/todos', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+
+
+  MongoClient.connect(url, function(err, db) {
+
+    var collection = db.collection('todos');
+
+    collection.remove({}, function(err, data) {
+
+      res.send({"msg" : "todo deleted"});
+      //res.json(data);
+      db.close();
+    });
+  });
 });
 
 module.exports = app;
