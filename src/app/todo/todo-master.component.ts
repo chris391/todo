@@ -24,10 +24,10 @@ import {Observable} from "rxjs";
             </form>
             <hr>
             <ul id="sortable" class="list-unstyled">
-                <li class="ui-state-default" *ngFor="let todo of todos">
+                <li class="ui-state-default" *ngFor="let todo of todos" >
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" (click)="updateTodo(todo)" /> {{todo.task}}
+                            <input type="checkbox"  (click)="updateTodo(todo)" /> {{todo.task}}
                         </label>
                     </div>
                 </li>
@@ -47,16 +47,20 @@ export class TodoMasterComponent implements OnInit {
   simpleForm: FormGroup;
   private addTodo: Todo[] = [];
   private todos: Todo[] = [];
+  // private todo: Todo;
   private errorMessage: string = "";
+  completed:boolean = false;
+  private todo={};
+  completedTrue(){
+    // this.todo.completed == true;
+  }
 
   ngOnInit(): void {
     //this.getPending();
-
     this.todoService.getAllTodos().subscribe(
       todo => this.todos = todo,
       error => this.errorMessage = error
     );
-
 
   }
 
@@ -110,24 +114,59 @@ export class TodoMasterComponent implements OnInit {
   // public serverArchive(todo: Todo) {
   //   todo.completed==true;
 // }
-  updateTodo(todo) {
-    //console.log("update todo1")
+//   updateTodo(todo) {
+//     //console.log("update todo1");
+//     this.todoService.updateTodo(todo).subscribe(
+//
+//       data => {
+//         console.log("update todo");
+//         // refresh the list
+//         todo.completed==true;
+//         // this.getFoods();
+//         //return true;
+//       },
+//       error => {
+//         console.error("Error saving food!");
+//         return Observable.throw(error);
+//       }
+//     );
+//   }
+//   enableEditing(todo) {
+//     this.completed = true;
+//     this.todo = todo;
+//   }
+  public updateTodo(todo) {
+    // console.log(todo);
+    // console.log(todo._id);
+    todo._completed=true;
+    // console.log(todo._completed);
     this.todoService.updateTodo(todo).subscribe(
-      //console.log("update todo")
-      data => {
-        console.log("update todo");
-        // refresh the list
-        todo.completed==true;
-        // this.getFoods();
-        return true;
+      res =>{
+        // this.completed = true;
+        // this.todo = todo;
+        // todo._completed = true;
+        // this.todo= todo;
+        console.log("edit is successful");
+
       },
+
+
+      // refresh the list
+    // data => {
+    //     // console.log("update m2");
+    //     // this.getTodos();
+    //     this.todoService.getAllTodos().subscribe(
+    //       todo => this.todos = todo,
+    //       error => this.errorMessage = error
+    //     );
+    //     return true;
+    //   },
       error => {
         console.error("Error saving food!");
         return Observable.throw(error);
       }
     );
   }
-
 
 
 }

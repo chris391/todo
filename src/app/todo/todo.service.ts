@@ -38,33 +38,17 @@ export class TodoService {
     .catch(this.handleError);
 }
 
+  public updateTodo(todo):Observable<any>  {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    let body = JSON.stringify(todo);
 
+    // console.log(todo._completed);
+    return this.http.put('http://localhost:3000/api/todos/' + todo._id, body, headers)
+      .map((res: Response) => res.json())
 
-  // public updateTodo(todo) {
-  //   let headers = new Headers({ 'Content-Type': 'application/json' });
-  //   let options = new RequestOptions({ headers: headers });
-  //   let body = JSON.stringify(todo);
-  //   return this.http.put('/api/todos/{todo.id}', body, headers)
-  //     .map((res: Response) => res.json())
-  //     .catch(this.handleError);
-  // }
-  public updateTodo (todo:Todo): Observable<Todo> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    //console.log(task, completed);
-
-    // var todo = {
-    //   completed: ""
-    // };
-
-    return this.http.put("http://localhost:3000/api/todos/${todo._id}", todo , options)
-      .map(this.extractData)
-      // .map(res =>res.json())
-      // res=> res.json()
-      .catch(this.handleError);
+      ;
   }
-
   private extractData(res: Response){
     // let body = JSON.stringify(res);
     let body = res.json();
