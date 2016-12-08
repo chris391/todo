@@ -74,6 +74,8 @@ app.put('/api/todos/:id', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {
 
+      delete req.body._id;
+
         var collection = db.collection('todos');
     try{
         collection.updateOne({'_id': ObjectId(req.params.id)}, {$set: req.body}, function(err, data) {

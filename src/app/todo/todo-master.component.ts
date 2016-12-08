@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ChangeDetectionStrategy} from "@angular/core";
 import {Todo} from "./todo.model";
 import {TodoService} from "./todo.service";
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
@@ -24,7 +24,7 @@ import {Observable} from "rxjs";
             </form>
             <hr>
             <ul id="sortable" class="list-unstyled">
-                <li class="ui-state-default" *ngFor="let todo of todos" >
+                <li class="ui-state-default" *ngFor="let todo of notCompletedTodos" >
                     <div class="checkbox">
                         <label>
                             <input type="checkbox"  (click)="updateTodo(todo)" /> {{todo.task}}
@@ -33,7 +33,7 @@ import {Observable} from "rxjs";
                 </li>
             </ul>
             <div class="todo-footer">
-                 Exam KEA - 2017
+                {{ currentDate | date | lowercase }}   | Exam KEA - 2017
             </div>
         </div>
     </div>
@@ -47,6 +47,7 @@ export class TodoMasterComponent implements OnInit {
   simpleForm: FormGroup;
   private addTodo: Todo[] = [];
   private todos: Todo[] = [];
+  currentDate:Date;
   // private todo: Todo;
   private errorMessage: string = "";
   completed:boolean = false;
@@ -54,13 +55,34 @@ export class TodoMasterComponent implements OnInit {
   completedTrue(){
     // this.todo.completed == true;
   }
+  private notCompletedTodos: Todo[]=[];
+  private index:number=0;
+
+  private getNotCompeleted():any{
+    while (this.index<=this.todos.length-1){
+      console.log("hei");
+      console.log(this.todos[this.index].completed);
+
+      if(this.todos[this.index].completed==false){
+        console.log("heeeei");
+        // return this.todos[this.index];
+        this.notCompletedTodos.push(this.todos[this.index]);
+        console.log("works");
+
+      }
+      this.index++;
+
+    }
+  }
 
   ngOnInit(): void {
     //this.getPending();
-    this.todoService.getAllTodos().subscribe(
+    this._todoService.getAllTodos().subscribe(
       todo => this.todos = todo,
-      error => this.errorMessage = error
+      error => this.errorMessage = error,
+      () => this.getNotCompeleted()
     );
+    this.currentDate = new Date();
 
   }
 
@@ -73,10 +95,11 @@ export class TodoMasterComponent implements OnInit {
 
     this._todoService.addTodo(form.controls.taskForm.value, false).subscribe(
       task => this.addTodo = task
+
     );
   }
 
-  constructor(private fb: FormBuilder, private _todoService: TodoService, private todoService: TodoService) {
+  constructor(private fb: FormBuilder, private _todoService: TodoService) {
     this.simpleForm = fb.group({
       'taskForm': [null, Validators.compose([Validators.required, Validators.minLength(2)])]
     })
@@ -95,25 +118,12 @@ export class TodoMasterComponent implements OnInit {
   // };
 
   public add(): void {
-    // this._todoService.add(this.todo);
-    // this.getPending();
-    // this.todo.text = "";
-  }
-
-  public getPending(): void {
-    this.todos = this._todoService.getPending();
-  }
-
-  public archive(todo: Todo) {
-    this._todoService.archive(todo);
-    this.getPending();
+    this._todoService.getAllTodos().subscribe(
+      todo => this.todos = todo,
+      error => this.errorMessage = error
+    );
 
   }
-
-
-  // public serverArchive(todo: Todo) {
-  //   todo.completed==true;
-// }
 //   updateTodo(todo) {
 //     //console.log("update todo1");
 //     this.todoService.updateTodo(todo).subscribe(
@@ -136,35 +146,33 @@ export class TodoMasterComponent implements OnInit {
 //     this.todo = todo;
 //   }
   public updateTodo(todo) {
-    // console.log(todo);
+
     // console.log(todo._id);
-    todo._completed=true;
-    // console.log(todo._completed);
-    this.todoService.updateTodo(todo).subscribe(
+    todo.completed=true;
+
+    // console.log(todo.completed);
+    this._todoService.updateTodo(todo).subscribe(
+
+
+
       res =>{
-        // this.completed = true;
-        // this.todo = todo;
-        // todo._completed = true;
-        // this.todo= todo;
-        console.log("edit is successful");
 
       },
-
-
       // refresh the list
     // data => {
     //     // console.log("update m2");
     //     // this.getTodos();
-    //     this.todoService.getAllTodos().subscribe(
+    //     this._todoService.getAllTodos().subscribe(
     //       todo => this.todos = todo,
     //       error => this.errorMessage = error
     //     );
     //     return true;
     //   },
       error => {
-        console.error("Error saving food!");
+        console.error("Error saving todo!");
         return Observable.throw(error);
       }
+
     );
   }
 

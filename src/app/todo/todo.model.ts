@@ -1,6 +1,6 @@
 export class Todo {
   private _id: number;
-  private _text: string;
+  private _task: string;
   private _completed: boolean;
 
 
@@ -12,12 +12,13 @@ export class Todo {
     this._id = value;
   }
 
-  get text(): string {
-    return this._text;
+
+  get task(): string {
+    return this._task;
   }
 
-  set text(value: string) {
-    this._text = value;
+  set task(value: string) {
+    this._task = value;
   }
 
   get completed(): boolean {

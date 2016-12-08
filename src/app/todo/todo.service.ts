@@ -38,16 +38,20 @@ export class TodoService {
     .catch(this.handleError);
 }
 
-  public updateTodo(todo):Observable<any>  {
+  public updateTodo(todo):Observable<Todo>  {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
     let body = JSON.stringify(todo);
 
     // console.log(todo._completed);
-    return this.http.put('http://localhost:3000/api/todos/' + todo._id, body, headers)
-      .map((res: Response) => res.json())
+    console.log(todo);
+    return this.http.put('http://localhost:3000/api/todos/' + todo._id, todo, options)
+      .map((res: Response) => res.json());
+      // .map(this.extractData)
+      // .catch(this.handleError);
 
-      ;
+
+
   }
   private extractData(res: Response){
     // let body = JSON.stringify(res);
@@ -88,30 +92,30 @@ export class TodoService {
     return this.getFromLocalStorage();
   }
 
-  public getPending(): Todo[] {
-    let todos: Todo[] = this.getFromLocalStorage();
-    return todos.filter(function(element) {
-      return element.completed === false;
-    });
-  }
+  // public getPending(): Todo[] {
+  //   let todos: Todo[] = this.getFromLocalStorage();
+  //   return todos.filter(function(element) {
+  //     return element.completed === false;
+  //   });
+  // }
 
-  public getArchive(): Todo[] {
-    let todos: Todo[] = this.getFromLocalStorage();
-    return todos.filter(function(element) {
-      return element.completed === true;
-    });
-  }
+  // public getArchive(): Todo[] {
+  //   let todos: Todo[] = this.getFromLocalStorage();
+  //   return todos.filter(function(element) {
+  //     return element.completed === true;
+  //   });
+  // }
 
-  public archive(todo: Todo): void {
-    let todos = this.getFromLocalStorage();
-    todos.forEach(function(value, key) {
-      if (value.id === todo.id) {
-        value.completed = true;
-        return;
-      }
-    });
-    this.addToLocalStorage(todos);
-  }
+  // public archive(todo: Todo): void {
+  //   let todos = this.getFromLocalStorage();
+  //   todos.forEach(function(value, key) {
+  //     if (value.id === todo.id) {
+  //       value.completed = true;
+  //       return;
+  //     }
+  //   });
+  //   this.addToLocalStorage(todos);
+  // }
 
   public remove(todo: Todo): void {
     let todos = this.getFromLocalStorage();
