@@ -64,11 +64,11 @@ export class TodoService {
     return Observable.throw("some error message");
   }
   //todo
-  public deleteTodo(id: string){
+  public deleteTodo(todo) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     // this.http.delete("http://angular2api2.azurewebsites.net/api/internships/_id:"+id, { headers: headers });
-    this.http.delete("https://jsonplaceholder.typicode.com/todos/1", { headers: headers });
+    return this.http.delete('http://localhost:3000/api/todos/' + todo._id, options);
   }
   // public serverArchive(todo:Todo){
   //   t

@@ -74,10 +74,15 @@ export class TodoDetailComponent implements OnInit {
   //   this.getArchive();
   // }
 
-  // public remove(todo: Todo): void {
-  //   this.todoService.remove(todo);
-  //   this.getArchive();
-  // }
+  public remove(todo: Todo) {
+    this.todoService.deleteTodo(todo).subscribe(
+      res=>{
+        console.log("deleted!");
+      },
+      error => console.log(error)
+    );
+    // this.getArchive();
+  }
 
   // private getArchive(): void {
   //   this.todos = this.todoService.getArchive();

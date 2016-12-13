@@ -8,14 +8,14 @@ import {routing} from "./todo/app-routing.module";
 import {TodoService} from "./todo/todo.service";
 import {TodoDetailComponent} from "./todo/todo-detail.component";
 import {TodoMasterComponent} from "./todo/todo-master.component";
-import {TodoFilter} from "./todo/todos-filter.pipe";
+import {FilterTodos} from "./todo/filter-todos.pipe";
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoDetailComponent,
     TodoMasterComponent,
-    TodoFilter
+    FilterTodos
   ],
   imports: [
     BrowserModule,

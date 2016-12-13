@@ -1,8 +1,9 @@
-import {Component, OnInit, ChangeDetectionStrategy} from "@angular/core";
+import {Component, OnInit, ChangeDetectionStrategy, Input} from "@angular/core";
 import {Todo} from "./todo.model";
 import {TodoService} from "./todo.service";
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 import {Observable} from "rxjs";
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   providers: [TodoService],
@@ -58,16 +59,12 @@ export class TodoMasterComponent implements OnInit {
   private notCompletedTodos: Todo[]=[];
   private index:number=0;
 
-  private getNotCompeleted():any{
+  private getNotCompleted():any{
     while (this.index<=this.todos.length-1){
-      console.log("hei");
       console.log(this.todos[this.index].completed);
 
       if(this.todos[this.index].completed==false){
-        console.log("heeeei");
-        // return this.todos[this.index];
         this.notCompletedTodos.push(this.todos[this.index]);
-        console.log("works");
 
       }
       this.index++;
@@ -78,10 +75,18 @@ export class TodoMasterComponent implements OnInit {
   ngOnInit(): void {
     //this.getPending();
     this._todoService.getAllTodos().subscribe(
+
       todo => this.todos = todo,
       error => this.errorMessage = error,
-      () => this.getNotCompeleted()
+      () => this.getNotCompleted()
+
+
     );
+    // this.addItemStream.subscribe(() => {
+    //   this.counter++; // application state changed
+    //   this.cd.markForCheck(); // marks path
+    // });
+
     this.currentDate = new Date();
 
   }
@@ -95,14 +100,23 @@ export class TodoMasterComponent implements OnInit {
 
     this._todoService.addTodo(form.controls.taskForm.value, false).subscribe(
       task => this.addTodo = task
-
     );
+    // this._todoService.getAllTodos().subscribe(
+    //   todo => this.todos = todo,
+    //   error => this.errorMessage = error,
+    //   () => this.getNotCompleted()
+    // );
+
   }
 
-  constructor(private fb: FormBuilder, private _todoService: TodoService) {
+  constructor(private fb: FormBuilder, private _todoService: TodoService, private cd: ChangeDetectorRef) {
     this.simpleForm = fb.group({
       'taskForm': [null, Validators.compose([Validators.required, Validators.minLength(2)])]
-    })
+    });
+    cd.detach();
+    setInterval(() => {
+      this.cd.detectChanges();
+    }, 500);
   }
 
   public submitForm(value: any) {

@@ -9,9 +9,9 @@ app.use(BodyParser.urlencoded({
 
 app.use(BodyParser.json());
 
-var users = require('./server/routers/users.js');
+var todos = require('./server/routers/todos.js');
 
-app.use(users);
+app.use(todos);
 
 app.use(cors());
 

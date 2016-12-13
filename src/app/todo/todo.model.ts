@@ -3,6 +3,10 @@ export class Todo {
   private _task: string;
   private _completed: boolean;
 
+  constructor(task: string, completed:  boolean){
+    this._task = task;
+    this._completed = completed;
+  }
 
   get id(): number {
     return this._id;

@@ -4,7 +4,7 @@ import {TodoMasterComponent} from "./todo-master.component";
 import {TodoDetailComponent} from "./todo-detail.component";
 
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     redirectTo: '/todo',
